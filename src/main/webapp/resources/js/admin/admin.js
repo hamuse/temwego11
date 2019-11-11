@@ -104,8 +104,12 @@ admin = (() => {
                             case 'web_crawl':
                                 web_crawl()
                                 break
+                            case 'cust_mgmt':
+                            	cust_mgmt()
+                                break 
+                                
                             case 'item_reg':
-
+                            	
                                 break
                             case 'item_srch':
 
@@ -163,6 +167,54 @@ admin = (() => {
            })
     }
 
+    let cust_mgmt=()=>{
+    	$('#right').empty()
+    	$('<a>데이터베이스 생성</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/cmm/create/db', d=>{
+    			alert('데이터베이스 생성 성공여부 : ' + d.msg)
+    		})
+    	})
+    	$('<a>고객 테이블 생성</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/users/create/table', d=>{
+    			alert('고객 테이블 생성 : ' + d.msg)
+    		})
+    	})
+    /*	$('#right').empty()*/
+    	$('<a>고객 테이블 삭제</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/users/drop/table', d=>{
+    			alert('고객 테이블 삭제 : ' + d.msg)
+    		})
+
+    	})
+    	$('<a>고객 대량정보 입력</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/tx/register/users', d=>{
+    			alert('일괄등록된 유저의 수 : ' + d.userCount)
+    		})
+
+    	})
+    	$('<a>상품 테이블 생성</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/products/create/table', d=>{
+    			alert('상품 테이블 생성 : ' + d.msg)
+    		})
+
+    	})
+
+    }
     return {onCreate}
 
 })();

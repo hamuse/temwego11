@@ -100,9 +100,10 @@ public class Proxy {
 		    Collections.shuffle(성);
 		    Collections.shuffle(이름);
 		/*    String 성.get(0) + 이름.get(0) + 이름.get(1);*/
-
+		    
 		    return null;
 	}
+
 	
 }
 	

@@ -9,5 +9,6 @@
        <typeAlias alias="Article"  type="com.wego.web.brd.Article"/>
        <typeAlias alias="Admin"  type="com.wego.web.admin.Admin"/>
        <typeAlias alias="Proxy"  type="com.wego.web.pxy.Proxy"/>
+       <typeAlias alias="Product"  type="com.wego.web.product.Product"/>
     </typeAliases>
 </configuration>
