@@ -28,4 +28,10 @@ public class TxService {
 		
 		return txServicelist; 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public int registerUsers(){
+		return 0;
+	
+	}
 }

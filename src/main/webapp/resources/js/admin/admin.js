@@ -104,8 +104,8 @@ admin = (() => {
                             case 'web_crawl':
                                 web_crawl()
                                 break
-                            case 'item_reg':
-
+                            case 'cust_mgmt':
+                            	cust_mgmt()
                                 break
                             case 'item_srch':
 
@@ -162,6 +162,18 @@ admin = (() => {
                }
            })
     }
+    let cust_mgmt=()=>{
+    	$('#right').empty()
+    	 $('<a>고객명단 대량 등록</a>')
+    	 .appendTo('#right')
+         .click(e=>{
+             e.preventDefault()
+             $.getJSON(context+'/tx/register/users',d=>{
+             alert('등록인원'+d.userCount)
+         })
+         })
+         
+     }
 
     return {onCreate}
 
