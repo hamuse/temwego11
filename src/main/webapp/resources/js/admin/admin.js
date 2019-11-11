@@ -105,7 +105,7 @@ admin = (() => {
                                 web_crawl()
                                 break
                             case 'item_reg':
-
+                            
                                 break
                             case 'item_srch':
 
@@ -116,6 +116,9 @@ admin = (() => {
                             case 'item_del':
 
                                 break
+                            case 'cust_mgmt':
+                            	cust_mgmt();
+                            	break
                         }
                     })
             })
@@ -162,7 +165,51 @@ admin = (() => {
                }
            })
     }
+    
+    let cust_mgmt=()=>{
+    	$('#right').empty()
+    	$('<a>디비 생성</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/cmm/create/db',d=>{
+    			 alert('데이터 베이스 생성 여부 : '+d.msg)
+    		 })
+    	})
+    	$('<a>고객 테이블 생성</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/users/create/table',d=>{
+    			 alert('테이블 생성 여부  : '+d.msg)
+    		 })
+    	})
+    	$('<a>고객 테이블 삭제</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/users/drop/table',d=>{
+    			 alert('테이블 삭제 여부 : '+d.msg)
+    		 })
+    	})
+    	$('<a>호스트 테이블 생성</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/hosts/create/table',d=>{
+    			 alert('호스트테이블 생성 여부 : '+d.msg)
+    		 })
+    	})
+    	$('<a>호스트 테이블 삭제</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/hosts/drop/table',d=>{
+    			 alert('호스트테이블 삭제 : '+d.msg)
+    		 })
+    	})
+    }
 
     return {onCreate}
-
+   
 })();

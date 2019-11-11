@@ -1,5 +1,6 @@
 package com.wego.web.aop;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wego.web.cmm.IFunction;
+import com.wego.web.pxy.Proxy;
+import com.wego.web.pxy.ProxyMap;
 import com.wego.web.utl.Printer;
 
 @RestController
@@ -22,6 +25,7 @@ public class TxController {
 //	System.out.println(text);
 	@Autowired Printer p;
 	@Autowired TxService txservice;
+	@Autowired ProxyMap map;
 //	@Autowired HashMap<String,String> map;
 	
 	 @GetMapping("/crawling/{site}/{srch}")
@@ -33,6 +37,13 @@ public class TxController {
 		 txMap.put("srch",srch);
 		 txservice.crawling(txMap);
 //		 map.clear();
+	 } 
+	 @GetMapping("/register/users")
+	 public Map<?, ?> registerUsers(){
+	 int userCount = txservice.registerUsers();
+	 p.accept("서비스카운팅"+userCount);
+	 map.accept(Arrays.asList("userCount"), Arrays.asList(userCount));
+	 return map.get();
 	 } 
 	 
 }
