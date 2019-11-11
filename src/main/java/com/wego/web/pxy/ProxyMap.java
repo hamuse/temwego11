@@ -19,7 +19,7 @@ public class ProxyMap {
 		map.forEach((k,v)-> System.out.print(String.format("%s : %s", k,v)));
 	}
 	public HashMap<String, Object> get(){
-		return map; //
+		return map; 
 	}
 
 }

@@ -4,12 +4,26 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.wego.web.usr.UserMapper">
+
+	<select id="createUser" parameterType="map">
+		${CREATE_TABLE}
+	</select>
+	
+	<select id="dropUser" parameterType="map">
+		${DROP_TABLE}
+	</select>
+	
+	<select id="createDB" parameterType="hashmap">
+		${CREATE_DB}
+	</select>
+	
     <select id="selectUserByIdPw" resultType="User" >
      select *
 	from user
 	where uid like #{uid}
 	and pwd like #{pwd}
     </select>
+    
     <insert id="insertUser" parameterType="User"> 
         insert into user (uid, pwd, uname) values (
             #{uid}, #{pwd},#{uname}
@@ -20,6 +34,11 @@
       select count(*)
       from user
       where uid like #{uid}
+    </select>
+    
+      <select id="countUsers" resultType="int" >
+     select count(*)
+	from user
     </select>
     
 </mapper>

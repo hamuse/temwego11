@@ -3,7 +3,7 @@ var admin = admin || {};
 admin = (() => {
     const WHEN_ERR = 'admin 호출하는 js가 없습니다.';
     let context, js, css, img;
-    let navi_vuejs, auth_vuejs;
+    let navi_vuejs, auth_vuejs,cus_vue_js;
     let navijs;
     let init = () => {
         context = $.ctx()
@@ -12,6 +12,7 @@ admin = (() => {
         img = $.img()
         navi_vuejs = js + '/vue/navi_vue.js'
         navijs = js + '/cmm/navi.js'
+        cus_vue_js= js+'/vue/cus_vue.js'
     }
     
     let onCreate = () => {
@@ -19,7 +20,8 @@ admin = (() => {
         init()
         $.when(
                 $.getScript(navi_vuejs),
-                $.getScript(navijs)
+                $.getScript(navijs),
+                $.getScript(cus_vue_js)
             ).done(() => {
                 alert('admin onCreate done alert')
                 setContentView()
@@ -69,30 +71,12 @@ admin = (() => {
             })
 
         $.each([ // name을 주고 구분
-                {
-                    txt: '웹크롤링',
-                    name: 'web_crawl'
-                },
-                {
-                    txt: '고객관리',
-                    name: 'cust_mgmt'
-                },
-                {
-                    txt: '상품등록',
-                    name: 'item_reg'
-                },
-                {
-                    txt: '상품조회',
-                    name: 'item_srch'
-                },
-                {
-                    txt: '상품수정',
-                    name: 'item_mod'
-                },
-                {
-                    txt: '상품삭제',
-                    name: 'item_del'
-                }
+                {txt: '웹크롤링', name: 'web_crawl'},
+                {txt: '고객관리', name: 'cust_mgmt'},
+                {txt: '상품등록', name: 'item_reg' },
+                {txt: '상품조회', name: 'item_srch'},
+                {txt: '상품수정', name: 'item_mod'},
+                {txt: '상품삭제',name: 'item_del'}
             ],
             (i, j) => {
                 $('<div name="' + j.name + '">' + j.txt + '</div>')
@@ -104,7 +88,8 @@ admin = (() => {
                             case 'web_crawl':
                                 web_crawl()
                                 break
-                            case 'item_reg':
+                            case 'cust_mgmt':
+                            	customer_mgmt()
 
                                 break
                             case 'item_srch':
@@ -162,6 +147,57 @@ admin = (() => {
                }
            })
     }
+    
+	let customer_mgmt=()=>{
+		$('#right').empty()
+		$(cus_vue.cus()).appendTo('#right')
+		$('<a>고객명단 대량 등록</a>').appendTo('#right')
+		.click(e=>{
+			e.preventDefault()
+			$.getJSON(context+'/tx/register/users',d=>{
+			alert('등록인원'+d.userCount)
+		})
+		})
+		$('<a>생성테이블</a>').appendTo('#right')
+		.click(e=>{
+			e.preventDefault()
+			$.getJSON(context+'/users/create/table',d=>{
+			alert('등록인원'+d.msg)
+		})
+		})
+
+			$('<a>데이터베이스 생성</a>').appendTo('#right')
+		.click(e=>{
+			e.preventDefault()
+			$.getJSON(context+'/create/db',d=>{
+			alert('데이터베이스 등록'+d.msg)
+		})
+		})
+		
+		$('<a>어드민 생성</a>').appendTo('#right')
+		.click(e=>{
+			e.preventDefault()
+			$.getJSON(context+'/admins/create/admin',d=>{
+			alert('어드민 등록'+d.msg)
+		})
+		})
+				$('<a>어드민 삭제</a>').appendTo('#right')
+		.click(e=>{
+			e.preventDefault()
+			$.getJSON(context+'/admins/drop/admin',d=>{
+			alert('어드민 등록'+d.msg)
+		})
+		})
+		
+		$('<a>이미지 생성</a>').appendTo('#right')
+		.click(e=>{
+			e.preventDefault()
+			$.getJSON(context+'/create/img',d=>{
+			alert('이미지 등록'+d.msg)
+		})
+		})
+		
+	}
 
     return {onCreate}
 

@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wego.web.cmm.IConsumer;
 import com.wego.web.cmm.IFunction;
 import com.wego.web.cmm.IPredicate;
+import com.wego.web.enums.SQL;
 import com.wego.web.utl.Printer;
 import lombok.extern.log4j.Log4j;
+
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 @RestController
 @RequestMapping("/users")
 @Log4j
@@ -49,6 +53,8 @@ public class UserCtrl {
 	        return map;
 	    }
 	    
+	    
+	    
 	    @PostMapping("/{uid}")
 	    public  User login(@PathVariable String uid,@RequestBody User param){
 	    	IFunction<User, User> f =  t -> userMapper.selectUserByIdPw(param);
@@ -75,5 +81,31 @@ public class UserCtrl {
 	    	c.accept(param);
 	    	return "SUCCESS";
 	    }
+	    
+	    @GetMapping("/create/table")
+	    public Map<?,?> createUser(){
+	    	HashMap<String,String> paramMap = new HashMap<>();
+	    	paramMap.put("CREATE_TABLE", SQL.CREATE_USER.toString());
+	    	printer.accept("테이블 생성쿼리"+paramMap.get("CREATE_USER"));
+	    	Consumer<HashMap<String,String>> c = t-> userMapper.createUser(paramMap);
+	    	c.accept(paramMap);
+	    	paramMap.clear();
+	    	paramMap.put("msg", "SUCCESS");
+	    	return paramMap;
+	    }
+		 @GetMapping("/drop/user")
+		 public Map<?,?> dropTable(){
+		    	HashMap<String,String> paramMap = new HashMap<>();
+		    	paramMap.put("DROP_TABLE", SQL.DROP_USER.toString());
+		    	Consumer<HashMap<String,String>> c = t-> userMapper.dropUser(paramMap);;
+		    	c.accept(paramMap);
+		    	paramMap.clear();
+		    	paramMap.put("msg", "SUCCESS");
+		    	return paramMap;
+		 
+	 }
+		
+		 
+	 
 
 }

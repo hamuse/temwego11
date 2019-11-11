@@ -4,7 +4,9 @@ package com.wego.web.admin;
 
 	import java.util.HashMap;
 	import java.util.Map;
-	import org.slf4j.Logger;
+import java.util.function.Consumer;
+
+import org.slf4j.Logger;
 	import org.slf4j.LoggerFactory;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +21,8 @@ package com.wego.web.admin;
 	import com.wego.web.cmm.IConsumer;
 	import com.wego.web.cmm.IFunction;
 	import com.wego.web.cmm.IPredicate;
-	import com.wego.web.utl.Printer;
+import com.wego.web.enums.SQL;
+import com.wego.web.utl.Printer;
 	import lombok.extern.log4j.Log4j;
 	import java.util.Map;
 
@@ -62,5 +65,25 @@ package com.wego.web.admin;
 		@DeleteMapping("/{eid}")
 		public void deleteAdmin(@PathVariable String eid,@RequestBody Admin param) {
 			
+		}
+		@GetMapping("/create/admin")
+		public Map<?,?> createAdmin(){
+			HashMap<String,String> paramMap = new HashMap<>();
+	    	paramMap.put("CREATE_TABLE", SQL.CREATE_ADMIN.toString());
+	    	Consumer<HashMap<String,String>> c = t-> adminMapper.createAdmin(paramMap);
+	    	c.accept(paramMap);
+	    	paramMap.clear();
+	    	paramMap.put("msg", "SUCCESS");
+	    	return paramMap;
+		}
+		@GetMapping("/drop/admin")
+		public Map<?,?> dropAdmin(){
+			HashMap<String,String> paramMap = new HashMap<>();
+	    	paramMap.put("DROP_TABLE", SQL.DROP_ADMIN.toString());
+	    	Consumer<HashMap<String,String>> c = t-> adminMapper.drop(paramMap);
+	    	c.accept(paramMap);
+	    	paramMap.clear();
+	    	paramMap.put("msg", "SUCCESS");
+	    	return paramMap;
 		}
 }
