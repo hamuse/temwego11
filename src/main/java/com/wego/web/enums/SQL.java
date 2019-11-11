@@ -44,6 +44,6 @@ public enum SQL {
 			break;
 		}
 		return result;
-	}
+	}  
 
 }
