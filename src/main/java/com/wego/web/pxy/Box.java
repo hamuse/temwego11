@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
-@Component @Data @Lazy
-public class ProxyMap {
+@Component("box") @Data @Lazy
+public class Box {
 	HashMap<String, Object> map;
 	public void accept(List<String>x, List<?>y) {
 		map = new HashMap<>();

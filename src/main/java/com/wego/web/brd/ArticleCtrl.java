@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +24,9 @@ import com.wego.web.cmm.IConsumer;
 import com.wego.web.cmm.IFunction;
 import com.wego.web.cmm.IPredicate;
 import com.wego.web.cmm.ISupplier;
+import com.wego.web.pxy.PageProxy;
 import com.wego.web.pxy.Proxy;
-import com.wego.web.pxy.ProxyMap;
+import com.wego.web.pxy.Box;
 import com.wego.web.usr.User;
 import com.wego.web.usr.UserCtrl;
 import com.wego.web.usr.UserMapper;
@@ -45,8 +47,11 @@ public class ArticleCtrl {
 	ArticleMapper articleMapper;
 	@Autowired
 	List<Article> list;
-	@Autowired Proxy pxy;
-	@Autowired ProxyMap map;
+	/*@Autowired Proxy pxy;*/
+	/*@Autowired ProxyMap map;
+	@Autowired PageProxy pageProxy;*/
+	@Qualifier PageProxy pager;
+	@Qualifier Box box;
 
 	@PostMapping("/")
 	public Map<?, ?> write(@RequestBody Article param) {
@@ -55,8 +60,8 @@ public class ArticleCtrl {
 		IConsumer<Article> c = s -> articleMapper.insertArticle(param);
 		c.accept(param);
 		ISupplier<String> t = () -> articleMapper.countArticle();
-		map.accept(Arrays.asList("msg","count"), Arrays.asList("SUCCESS", t.get()));
-		return map.get();
+		box.accept(Arrays.asList("msg","count"), Arrays.asList("SUCCESS", t.get()));
+		return box.get();
 	}
 
 	/*
@@ -69,17 +74,17 @@ public class ArticleCtrl {
 	@GetMapping("/page/{pageNo}/size/{pageSize}")
 	public Map<?, ?> list(@PathVariable String pageSize,@PathVariable String pageNo) {
 		printer.accept("pageSize"+pageSize);
-		pxy.setPageNum(pxy.parseInt(pageNo));
-		pxy.setPageSize(pxy.parseInt(pageSize));
-		pxy.paging();
+		pager.setPageNum(pager.parseInt(pageNo));
+		pager.setPageSize(pager.parseInt(pageSize));
+		pager.paging();
 		list.clear();
-		ISupplier<List<Article>> p = () -> articleMapper.selectpagination(pxy);
+		ISupplier<List<Article>> p = () -> articleMapper.selectpagination(pager);
 		printer.accept("해당 페이지 글 목록\n" + p.get());
-		int ran =pxy.random(10,100);
+		int ran =pager.random(10,100);
 		printer.accept("랜던수 100~1000:" + ran);
 		/*map.accept(Arrays.asList("articles","pages","pxy"), Arrays.asList(p.get(),Arrays.asList(1,2,3,4,5),pxy));*/
-		map.accept(Arrays.asList("articles","pxy"), Arrays.asList(p.get(),pxy));
-		return map.get();
+		box.accept(Arrays.asList("articles","pxy"), Arrays.asList(p.get(),pager));
+		return box.get();
 	}
 
 	@GetMapping("/count")
@@ -87,8 +92,8 @@ public class ArticleCtrl {
 		logger.info("count : ");
 		ISupplier<String> t = () -> articleMapper.countArticle();
 		logger.info("count" + t.get());
-		map.accept(Arrays.asList("count"), Arrays.asList(t.get()));
-		return map.get();
+		box.accept(Arrays.asList("count"), Arrays.asList(t.get()));
+		return box.get();
 	}
 
 	@GetMapping("/{artseq}")
@@ -105,8 +110,8 @@ public class ArticleCtrl {
 		IConsumer<Article> t = p -> articleMapper.updateArticle(param);
 		t.accept(param);
 		logger.info("update 2 : " + param.toString());
-		map.accept(Arrays.asList("updateArticle"), Arrays.asList("SUCCESS"));
-		return map.get();
+		box.accept(Arrays.asList("updateArticle"), Arrays.asList("SUCCESS"));
+		return box.get();
 	}
 
 	@DeleteMapping("/{artseq}")

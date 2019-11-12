@@ -9,14 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wego.web.pxy.Proxy;
+import com.wego.web.pxy.CrawlingProxy;
+import com.wego.web.pxy.PageProxy;
 
 @Transactional
 @Service
 public class TxService {
 	@Autowired TxMapper mapper;
 	//@Autowired HashMap<String, Object> map;
-	@Autowired Proxy proxy;
+	@Autowired CrawlingProxy proxy;
 //	@Autowired List<String> txServicelist;
 	
 	@SuppressWarnings("unchecked")
