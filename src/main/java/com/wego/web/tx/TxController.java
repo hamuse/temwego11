@@ -1,4 +1,4 @@
-package com.wego.web.aop;
+package com.wego.web.tx;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wego.web.cmm.IFunction;
-import com.wego.web.pxy.Proxy;
-import com.wego.web.pxy.ProxyMap;
+import com.wego.web.pxy.PageProxy;
+import com.wego.web.pxy.Trunk;
+import com.wego.web.pxy.Box;
+import com.wego.web.pxy.CrawlingProxy;
 import com.wego.web.utl.Printer;
 
 @RestController
@@ -25,7 +27,9 @@ public class TxController {
 //	System.out.println(text);
 	@Autowired Printer p;
 	@Autowired TxService txservice;
-	@Autowired ProxyMap map;
+	@Autowired Trunk<String> trunk;
+	@Autowired CrawlingProxy crawler;
+	@Autowired Box<String> box;
 //	@Autowired HashMap<String,String> map;
 	
 	 @GetMapping("/crawling/{site}/{srch}")
@@ -42,8 +46,29 @@ public class TxController {
 	 public Map<?, ?> registerUsers(){
 	 int userCount = txservice.registerUsers();
 	 p.accept("서비스카운팅"+userCount);
-	 map.accept(Arrays.asList("userCount"), Arrays.asList(userCount));
-	 return map.get();
+	 trunk.put(Arrays.asList("userCount"), Arrays.asList(crawler.string(userCount)));
+	 return trunk.get();
 	 } 
+	 @GetMapping("/register/hosts")
+	 public Map<?, ?> registerHosts(){
+	 int hostCount = txservice.registerHosts();
+	 p.accept("서비스카운팅"+hostCount);
+	 trunk.put(Arrays.asList("hostCount"), Arrays.asList(crawler.string(hostCount)));
+	 return trunk.get();
+	 } 
+	 @GetMapping("/write/communites")
+	 public Map<?, ?> writeCommunities(){
+	 int userCount = txservice.registerUsers();
+	 p.accept("서비스카운팅"+userCount);
+	 trunk.put(Arrays.asList("userCount"), Arrays.asList(crawler.string(userCount)));
+	 return trunk.get();
+	 } 
+	 @GetMapping("/truncate/users")
+	 public Map<?, ?> truncate(){
+		 int userCount = txservice.trucateUsers();
+			p.accept("서비스 카운팅: "+ userCount);
+			trunk.put(Arrays.asList("userCount"), Arrays.asList(crawler.string(userCount)));
+			return trunk.get();
+	 }
 	 
 }

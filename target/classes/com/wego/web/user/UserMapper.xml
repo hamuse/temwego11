@@ -11,9 +11,12 @@
 	<select id="createUser" parameterType="map">
 		${CREATE_TABLE}
 	</select>
+	<select id="truncateUser" parameterType="hashmap">
+		${TRUNCATE_USER}
+	</select>
 	
 	<select id="dropUser" parameterType="map">
-		${DROP_TABLE}
+		${DROP_USER}
 	</select>
 
     <select id="selectUserByIdPw" resultType="User" >

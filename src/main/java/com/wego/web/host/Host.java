@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Lazy
 public class Host {
-	private String hid,pwd,hname,ceoname,vompnttype,tel,addr,licensenum;
+	private String hid,pwd,hname,ceoname,companytype,tel,addr,licensenum;
 }

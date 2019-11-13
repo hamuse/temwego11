@@ -79,8 +79,8 @@ auth = (() => {
                 img: $.img()
             }))
             .addClass('text-center')
-        $('#uid').val('aaa')
-        $('#pwd').val('aaa')
+        $('#uid').val('01ikor')
+        $('#pwd').val('1')
         login()
         access()
     }

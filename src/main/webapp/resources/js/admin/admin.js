@@ -78,8 +78,8 @@ admin = (() => {
                     name: 'cust_mgmt'
                 },
                 {
-                    txt: '상품등록',
-                    name: 'item_reg'
+                    txt: '커뮤니티관리',
+                    name: 'comm_mgmt'
                 },
                 {
                     txt: '상품조회',
@@ -104,8 +104,8 @@ admin = (() => {
                             case 'web_crawl':
                                 web_crawl()
                                 break
-                            case 'item_reg':
-                            
+                            case 'comm_mgmt':
+                            	comm_mgmt()
                                 break
                             case 'item_srch':
 
@@ -117,7 +117,7 @@ admin = (() => {
 
                                 break
                             case 'cust_mgmt':
-                            	cust_mgmt();
+                            	cust_mgmt()
                             	break
                         }
                     })
@@ -137,7 +137,7 @@ admin = (() => {
    /*            '  <button id="news_btn">이동</button>'+
                '</form>'+
                '<form class="form-inline my-2 my-lg-0">'+*/
-               '  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">'+
+               '  <input class="form-control mr-sm-2" type="text" value="스톤애견풀빌라" placeholder="Search" aria-label="Search">'+
 //               '  <button id="crawl_btn" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>'+
                '</form>')
            .addClass('form-inline my-2 my-lg-0')
@@ -145,7 +145,12 @@ admin = (() => {
            $('#crawl_form_id').css({padding : '0 auto', 'padding-top' : '5%'  })    //'padding-top' : '5%'
            $('#crawl_form_id select').css({ 'margin-left' : '30%' , 'margin-right' : '1%'})
            
-           $.each(['naver.com', 'daum.net', 'google.com', 'youtube.com'], (i, j)=>{
+           $.each([
+        	   '직접입력',
+        	   'naver.com', 
+        	   'daum.net', 
+        	   'google.com', 
+        	   'youtube.com'], (i, j)=>{
                $('<option value="'+ j +'">'+ j +'</option>')
                .appendTo('#crawl_form_id select')
            })
@@ -165,6 +170,33 @@ admin = (() => {
                }
            })
     }
+    let comm_mgmt=()=>{
+    	$('#right').empty()
+    	$('<a>커뮤니티 테이블 생성</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/community/create/table',d=>{
+    			 alert('데이터 베이스 생성 여부 : '+d.msg)
+    		 })
+    	})
+    	$('<a>커뮤니티 대량정보 등록</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/tx/write/communites',d=>{
+    			 alert('일괄등록된 커뮤니티 글 수  : '+d.msg)
+    		 })
+    	})
+    	$('<a>커뮤니티 테이블 삭제</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/tx/drop/table',d=>{
+    			 alert('테이블 삭제 여부  : '+d.msg)
+    		 })
+    	})
+    }
     
     let cust_mgmt=()=>{
     	$('#right').empty()
@@ -176,6 +208,14 @@ admin = (() => {
     			 alert('데이터 베이스 생성 여부 : '+d.msg)
     		 })
     	})
+    	$('<a>고객 대량정보 입력</a></br>')
+       .appendTo('#right')
+       .click(e=>{
+           e.preventDefault()
+           $.getJSON(context+'/tx/register/users', d=>{
+               alert('일괄등록된 유저의 수 : ' + d.userCount)
+           })
+       })
     	$('<a>고객 테이블 생성</a><br/>')
     	.appendTo('#right')
     	.click(e=>{
@@ -200,11 +240,27 @@ admin = (() => {
     			 alert('호스트테이블 생성 여부 : '+d.msg)
     		 })
     	})
+    	$('<a>호스트 정보 대량 입력</a></br>')
+       .appendTo('#right')
+       .click(e=>{
+           e.preventDefault()
+           $.getJSON(context+'/tx/register/hosts', d=>{
+               alert('일괄등록된 호스트의 수 : ' + d.hostCount)
+           })
+       })
     	$('<a>호스트 테이블 삭제</a><br/>')
     	.appendTo('#right')
     	.click(e=>{
     		 e.preventDefault()
     		 $.getJSON(context+'/hosts/drop/table',d=>{
+    			 alert('호스트테이블 삭제 : '+d.msg)
+    		 })
+    	})
+    	$('<a>고객 테이블 삭제(이건테스트 사용안댐)</a><br/>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		 e.preventDefault()
+    		 $.getJSON(context+'/tx/truncate/table',d=>{
     			 alert('호스트테이블 삭제 : '+d.msg)
     		 })
     	})

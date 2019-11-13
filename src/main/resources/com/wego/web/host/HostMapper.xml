@@ -4,11 +4,20 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.wego.web.host.HostMapper">
-
+	<insert id="insertHost" parameterType="Host"> 
+        insert into host (hid, pwd, hname, ceoname, companytype, tel, addr,licensenum ) values (
+           #{hid}, #{pwd}, #{hname},#{ceoname}, #{companytype}, #{tel}, #{addr}, #{licensenum}
+       )
+    </insert>
 	<select id="createHost" parameterType="map">
 		${CREATE_TABLE}
 	</select>
 	 <select id="dropHost" parameterType="map">
 		${DROP_TABLE}
 	</select> 
+	<select id="countHosts" resultType="int"> 
+        select count(*)
+      	from host
+        
+    </select>
 </mapper>

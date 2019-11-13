@@ -38,6 +38,7 @@ package com.wego.web.admin;
 			
 		}
 		
+		
 		@PostMapping("/{eid}/access")
 		public Map<?,?>  access(@PathVariable String eid,@RequestBody Admin param) {//로그인
 			HashMap<String,Object> map = new HashMap<>();

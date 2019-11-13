@@ -142,7 +142,37 @@ brd =(()=>{
     	}).addClass('btn btn-danger')
     	.appendTo('#form_write')
     	.click(()=>{
-			
+		})
+		$('<input>',{
+			style: "float:right;width:100px;margin-right:10px",
+			value: "파일업로드"
+		})
+		.addClass("btn btn-warning")
+		.appendTo('#form_write')
+		.click(()=>{
+			alert("클릭")
+			let formData = new FormData()
+			let inputFile = $('#upload')
+    		let files = inputFile[0].files
+			let i =0
+			for(;i<files.length;i++){
+				formData.append("uploadFile",files[i])
+			}
+			$.ajax({
+				url : context+'/articles/fileupload/',
+				processData : false,
+				contentType : false,
+				data : formData,
+				type:'POST',
+				success : d=>{
+					alert('파일업로드 성공')
+				},
+				erroe : e=>{
+					alert('파일업로드 실패')
+				}
+					
+			})
+			alert(inputFile)
 		})
     	$('<input>',{
     		style:'float:right;width:100px;margin-right:10px',
@@ -157,6 +187,7 @@ brd =(()=>{
    				uid : $('#form_write input[name="writer"]').val(),
   				title : $('#form_write input[name="title"]').val(),
     			content : $('#form_write textarea[name="content"]').val()
+    			
     		}
     		alert('글 쓰기 : id'+json.uid)
     		alert('글 쓰기 제목: '+json.title)
@@ -181,6 +212,11 @@ brd =(()=>{
 				}
 			})
 		})
+		$('<input>',{
+			type : "file",
+			id : "upload"
+		})
+		.appendTo('#form_write')
 	}
 	let detail = x =>{
 		alert('넘기는 seq 값 '+x)

@@ -10,5 +10,6 @@
        <typeAlias alias="Admin"  type="com.wego.web.admin.Admin"/>
        <typeAlias alias="Host"  type="com.wego.web.host.Host"/>
        <typeAlias alias="Proxy"  type="com.wego.web.pxy.Proxy"/>
+       <typeAlias alias="Community"  type="com.wego.web.contents.Community"/>
     </typeAliases>
 </configuration>
