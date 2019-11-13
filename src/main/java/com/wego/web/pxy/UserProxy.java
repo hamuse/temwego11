@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wego.web.usr.User;
+import com.wego.web.usr.UserMapper;
 @Component("manager")
 public class UserProxy extends Proxy {
+	@Autowired UserMapper userMapper;
 	 public String makeBirthday() {
 		 String birthday = "";
 	        int[] maxDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -86,7 +89,7 @@ public class UserProxy extends Proxy {
 	@Transactional
 	public void insertUsers() {
 		for(int i=0;i< 500;i++) {
-			makeUser();
+			userMapper.insertUser(makeUser());
 		}
 	
 	}

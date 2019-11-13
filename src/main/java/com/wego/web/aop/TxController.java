@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wego.web.cmm.IFunction;
 import com.wego.web.pxy.PageProxy;
+import com.wego.web.pxy.Trunk;
 import com.wego.web.pxy.Box;
+import com.wego.web.pxy.CrawlingProxy;
 import com.wego.web.utl.Printer;
 
 @RestController
@@ -26,7 +28,8 @@ public class TxController {
 	@Autowired Printer p;
 	@Autowired TxService txservice;
 //	@Autowired HashMap<String,String> map;
-	@Autowired Box map;
+	@Autowired Trunk<String> trunk;
+	@Autowired CrawlingProxy crawling;
 	
 	 @GetMapping("/crawling/{site}/{srch}")
 	 public void crawl(@PathVariable String site, @PathVariable String srch) {
@@ -42,7 +45,7 @@ public class TxController {
 	 public Map<?,?> registerUsers() {
 		 int userCount = txservice.registerUsers();
 		 p.accept("서비스 카운팅"+userCount);
-		 map.accept(Arrays.asList("userCount"), Arrays.asList(userCount));
-		 return map.get();
+		 trunk.put(Arrays.asList("userCount"), Arrays.asList(crawling.String(userCount)));
+		 return trunk.get();
 	 }
 }

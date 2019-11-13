@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.wego.web.commu.Community;
 import com.wego.web.pxy.PageProxy;
 
 @Repository

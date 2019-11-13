@@ -38,9 +38,6 @@ brd =(()=>{
 		 $('#recent_updates .media').remove()
 		 $('#recent_updates .d-block').remove()
 		 recent_updates({page: '1' , size: '5'})
-		
-		
-		
 	}
 // ' <a class="nav-link" href="#">글쓰기 <span
 // class="sr-only">(current)</span></a>'+
@@ -53,7 +50,9 @@ brd =(()=>{
 		 $('#paging_form').remove()
 		 $.getJSON( context+'/articles/page/'+x.page+'/size/'+x.size, d =>{
 			 let pxy = d.pxy
-			 alert('recent_updates의 d 갯수'+Object.keys(d).length)
+			 alert('recent_updates 알럿')
+			 
+			 //alert('recent_updates의 d 갯수'+Object.keys(d).length)
 			 alert("성공!!")
 					$.each(d.articles, (i,j)=>{
 						$('<div class="media text-muted pt-3">'+
@@ -144,6 +143,7 @@ brd =(()=>{
     	.click(()=>{
 			
 		})
+		
     	$('<input>',{
     		style:'float:right;width:100px;margin-right:10px',
     		value: "전송"
@@ -181,6 +181,39 @@ brd =(()=>{
 				}
 			})
 		})
+		$('<input>',{
+			 id : 'fileupload',
+    		style:'float:right;width:100px;margin-right:10px',
+    		value: "파일업로드"
+    	}).addClass('btn btn-warning')
+    	.appendTo('#form_write')
+    	.click(()=>{
+			alert('파일업로드')
+			let formData = new FormData()
+			let inputFile = $('#fileupload')[0].files;
+			let i = 0
+			for(;i<files.length;i++){
+				formDatas.append("uploadFile", files[i])
+			}
+			$.ajax({
+				url : context +'/articles/fileupload',
+				processData : false,
+				contentType : false,
+				data : formData,
+				type : 'POST',
+				success : d =>{
+					
+				},
+				error : e =>{
+					alert('파일업로드 실패')
+				}
+			})
+			alert(inputFile)
+			
+		})
+		.appendTo('#form_write')
+		$('<input type="file" name="fileupload" multiple/>')
+		.appendTo('#form_write')
 	}
 	let detail = x =>{
 		alert('넘기는 seq 값 '+x)

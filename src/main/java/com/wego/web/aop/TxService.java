@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wego.web.pxy.Box;
+import com.wego.web.pxy.CommuProxy;
 import com.wego.web.pxy.CrawlingProxy;
 import com.wego.web.pxy.PageProxy;
+import com.wego.web.pxy.UserProxy;
 
 @Transactional
 @Service
@@ -19,20 +22,20 @@ public class TxService {
 	//@Autowired HashMap<String, Object> map;
 	@Autowired CrawlingProxy proxy;
 //	@Autowired List<String> txServicelist;
+	@Autowired UserProxy manager;
+	@Autowired CommuProxy Commu;
+	@Autowired Box<String> box;
 	
 	@SuppressWarnings("unchecked")
-	public List<?> crawling(Map<?,?> paramMap){
-		HashMap<String, Object> map = new HashMap<>();
-		List<String> txServicelist = new ArrayList<>();
-		txServicelist.clear();
-		txServicelist = (List<String>)proxy.crawl(paramMap);
-		
-		return txServicelist; 
+	public Box<String> crawling(Map<?,?> paramMap){
+		return proxy.choose(paramMap); 
 	}
 	
-	@SuppressWarnings("unchecked")
-	public int registerUsers(){
+	public int registerUsers() {
+		manager.insertUsers();
 		return 0;
-	
 	}
+   public void registerCommuniy() {
+	   Commu.insertCommunity();
+   }
 }

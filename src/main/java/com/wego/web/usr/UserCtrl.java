@@ -1,5 +1,4 @@
 package com.wego.web.usr;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,65 +14,90 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wego.web.cmm.IConsumer;
 import com.wego.web.cmm.IFunction;
 import com.wego.web.cmm.IPredicate;
+import com.wego.web.enums.SQL;
 import com.wego.web.utl.Printer;
 import lombok.extern.log4j.Log4j;
+import java.util.HashMap;
 import java.util.Map;
 @RestController
 @RequestMapping("/users")
 @Log4j
 public class UserCtrl {
-	 private static final Logger logger = LoggerFactory.getLogger(UserCtrl.class);
-	  @Autowired User user;
-	  @Autowired Printer printer;
-	  @Autowired UserMapper userMapper;
-	  @Autowired Map<String, Object> map;
-	  
-	  @GetMapping("/{uid}/exist")
-	  public Map<?,?> existId(@PathVariable String uid){
-		  logger.info("exist : "+uid);
-		  IFunction<String, Integer> p = o -> userMapper.existId(uid);
-		  map.clear();
-		  map.put("msg",(p.apply(uid) == 0) ? "SUCCESS" :"FAIL");
-	       return map;
-	  }
-	  
-	    @PostMapping("/")    //
-	    public  Map<?,?> join(@RequestBody User param) {   
-	    	printer.accept("join들어옴"+param.toString());
-	    	
-	    	 IConsumer<User>  c = o ->userMapper.insertUser(param);
-	        c.accept(param);
-	        map.clear();
-	        map.put("msg","SUCCESS");
-	       
-	        return map;
-	    }
-	    
-	    @PostMapping("/{uid}")
-	    public  User login(@PathVariable String uid,@RequestBody User param){
-	    	IFunction<User, User> f =  t -> userMapper.selectUserByIdPw(param);
-				
-	    	return  f.apply(param);
-	    }
-	    
-	    @GetMapping("/{uid}")
-	    public User serchUserById(@RequestBody User param) {
-	    	IFunction<User,User> f = t -> userMapper.selectUserByIdPw(param);
-	    	return f.apply(param);
-	    }
-	    
-	    @PutMapping("/{uid}")
-	    public String updateUser(@RequestBody User param) {
-	    	IConsumer<User> c = o -> userMapper.insertUser(param);
-	    	c.accept(param);
-	    	return "SUCCESS";
-	    }
-	    
-	    @DeleteMapping("/{uid}")
-	    public String removeUser(@RequestBody User param) {
-	    	IConsumer<User> c =o -> userMapper.insertUser(param);
-	    	c.accept(param);
-	    	return "SUCCESS";
-	    }
-
+     private static final Logger logger = LoggerFactory.getLogger(UserCtrl.class);
+      @Autowired User user;
+      @Autowired Printer printer;
+      @Autowired UserMapper userMapper;
+      @Autowired Map<String, Object> map;
+      
+      @GetMapping("/{uid}/exist")
+      public Map<?,?> existId(@PathVariable String uid){
+          logger.info("exist : "+uid);
+          IFunction<String, Integer> p = o -> userMapper.existId(uid);
+          map.clear();
+          map.put("msg",(p.apply(uid) == 0) ? "SUCCESS" :"FAIL");
+           return map;
+      }
+      
+        @PostMapping("/")    //
+        public  Map<?,?> join(@RequestBody User param) {
+            printer.accept("join들어옴"+param.toString());
+            
+             IConsumer<User>  c = o ->userMapper.insertUser(param);
+          /* c.accept(param);*/
+            map.clear();
+            map.put("msg","SUCCESS");
+           
+            return map;
+        }
+        
+        @GetMapping("/create/table")
+        public Map<?,?> createUser(){
+            HashMap<String,String> paramMap = new HashMap();
+            paramMap.put("CREATE_TABLE", SQL.CREATE_USER.toString());
+            printer.accept("테이블 생성 쿼리 : \n"+ paramMap.get("CREATE_TABLE"));
+            IConsumer<HashMap<String,String>>  c = o -> userMapper.createUser(o);
+            c.accept(paramMap);
+            paramMap.clear();
+            paramMap.put("msg","SUCCESS");
+            return paramMap;
+        }
+        
+        @GetMapping("/drop/table")
+        public Map<?,?> dropUser(){
+            HashMap<String,String> paramMap = new HashMap();
+            paramMap.put("DROP_USER", SQL.DROP_USER.toString());
+            printer.accept("테이블 제거 쿼리 : \n"+ paramMap.get("DROP_USER"));
+            IConsumer<HashMap<String,String>>  c = o -> userMapper.dropUser(o);
+            c.accept(paramMap);
+            paramMap.clear();
+            paramMap.put("msg","SUCCESS");
+            return paramMap;
+        }
+        
+        @PostMapping("/{uid}")
+        public  User login(@PathVariable String uid,@RequestBody User param){
+            IFunction<User, User> f =  t -> userMapper.selectUserByIdPw(param);
+                
+            return  f.apply(param);
+        }
+        
+        @GetMapping("/{uid}")
+        public User serchUserById(@RequestBody User param) {
+            IFunction<User,User> f = t -> userMapper.selectUserByIdPw(param);
+            return f.apply(param);
+        }
+        
+        @PutMapping("/{uid}")
+        public String updateUser(@RequestBody HashMap<String, String> param) {
+            /*IConsumer<User> c = o -> userMapper.insertUser(param);*/
+         /*   c.accept(param);*/
+            return "SUCCESS";
+        }
+        
+        @DeleteMapping("/{uid}")
+        public String removeUser(@RequestBody User param) {
+            IConsumer<User> c =o -> userMapper.insertUser(param);
+          /*  c.accept(param);*/
+            return "SUCCESS";
+        }
 }

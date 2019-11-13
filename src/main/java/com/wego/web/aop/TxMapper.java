@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface TxMapper {
-
-	public   List<?> readUrl(Map<?,?> paramMap);
+	/*
+	insert into community ( rating,img,uid, comments, msg, boardType, title, content) values(
+	        #{rating},#{img},#{uid},#{comments},#{msg},#{boardType},#{title},#{content}
+	    )*/
 }

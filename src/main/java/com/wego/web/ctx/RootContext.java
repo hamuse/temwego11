@@ -26,7 +26,7 @@ public class RootContext {
 		public DataSource dataSource() {
 			HikariConfig hikariConfig = new HikariConfig();
 			hikariConfig.setDriverClassName("org.mariadb.jdbc.Driver");
-			hikariConfig.setJdbcUrl("jdbc:mariadb://172.168.0.121/mysql");
+			hikariConfig.setJdbcUrl("jdbc:mariadb://172.168.0.121/wegodb");
 			hikariConfig.setUsername("wego");
 			hikariConfig.setPassword("wego");
 			
