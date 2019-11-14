@@ -3,7 +3,7 @@ var brd = brd || {};
 brd =(()=>{
 	const WHEN_ERR='호출하는 js는 찾을수 없습니다.'
 	let context,js;
-	let brd_vuejs, uname, $uid, navijs, navi_vuejs , page_vuejs,compo_vuejs;
+	let brd_vuejs, uname, $uid, navijs, navi_vuejs , page_vuejs,compo_vuejs,proxyjs;
 	let init = ()=> {
 		context= $.ctx()
 		js = $.js()
@@ -12,6 +12,7 @@ brd =(()=>{
 		navi_vuejs= js+'/vue/navi_vue.js'
 		page_vuejs = js+'/vue/page_vue.js'
 		compo_vuejs=js+'/vue/compo_vue.js'
+		proxyjs = js+'/cmm/proxy.js'
 		
 	
 	}
@@ -30,104 +31,105 @@ brd =(()=>{
 		})
 	}
 	let setContentView=()=>{
-		$('head')
-		.html(brd_vue.brd_head({css:$.css(), img: $.img()}))
-		$('body').addClass('text-center')
-		.html(brd_vue.brd_body({css:$.css(), img:$.img()}))
-		$(navi_vue.navi()).appendTo('#naviId')
-		 $('#recent_updates .media').remove()
-		 $('#recent_updates .d-block').remove()
-		 recent_updates({page: '1' , size: '5'})
-		
-		
-		
-	}
+        $('head')
+        .html(brd_vue.brd_head({css:$.css(), img: $.img()}))
+        $('body').addClass('text-center')
+        .html(brd_vue.brd_body({css:$.css(), img:$.img()}))
+        $(navi_vue.navi()).appendTo('#naviId')
+         $('#recent_updates .media').remove()
+         $('#recent_updates .d-block').remove()
+         recent_updates({page: '1' , size: '5'})
+    }
 // ' <a class="nav-link" href="#">글쓰기 <span
 // class="sr-only">(current)</span></a>'+
 	let recent_updates= x =>{
-		alert('호출된 페이지 번호:'+x.page)
-		 $('#recent_updates .media').remove()
-		 $('#writeid').remove()
-		 $('#recent_updates .d-block').remove()
-		 $('#recent_updates .container').remove()
-		 $('#paging_form').remove()
-		 $.getJSON( context+'/articles/page/'+x.page+'/size/'+x.size, d =>{
-			 let pxy = d.pxy
-			 alert('recent_updates의 d 갯수'+Object.keys(d).length)
-			 alert("성공!!")
-					$.each(d.articles, (i,j)=>{
-						$('<div class="media text-muted pt-3">'+
-					'          <i class="fas fa-edit  fa-2x"></i>'+
-					'          <p id="id_'+i+'"class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">'+
-					'          </p></div>').appendTo('#recent_updates')
-						$('<strong class="d-block text-gray-dark">@<a>'+j.uid+'</a></strong>')
-							.appendTo("#id_"+i)
-							.click(()=>{
-								alert('아이디클릭 ')
-						})
-						$('<a>'+j.title+'</a>')
-							.appendTo("#id_"+i)
-							.click(()=>{
-								alert('제목클릭')
-								detail(j)
-					})
-				})
-				 $(page_vue.page())
-				 .appendTo('#recent_updates')
-				 $('#pagination').empty()
-				 
-				 if(pxy.existPrev){
-					   $('<li class="page-item"><a class="page-link" href="#">이전</a></li>')
-						 .appendTo('#pagination')
-						 	 .click(e=>{
-						 		  e.preventDefault()        
-							 recent_updates({page: pxy.prevBlock ,size: pxy.pageSize})
-						 })
-				 }
-						 let i = 0;
-						    for(i = pxy.startPage; i <= pxy.endPage ; i++) {
-						    	if(pxy.pageNum == i){
-						    		$('<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>')
-									 .appendTo('#pagination')
-									 .addClass('active')
-						    	}else{
-						    	$('<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>')
-								 .appendTo('#pagination')
-								 .click(function(){
-									 alert('페이지 번호 >>>' + $(this).children('.page-link').text())
-									 recent_updates({page: $(this).children('.page-link').text() , size: pxy.pageSize})
-								 })
-						    	}		 
-						    }
-				 
-				 if(pxy.existNext){
-					  $('<li class="page-item"><a class="page-link" href="#">다음</a></li>')
-						 .appendTo('#pagination')
-						 .click(e=>{
-							  e.preventDefault()        
-							 recent_updates({page: pxy.nextBlock ,size:pxy.pageSize })
-						 })
-				 }
-				 $(compo_vue.pageSize())
-				 .appendTo('#pageSize')
-				 $('#listSizeSelectDiv ui[class="select_list"').empty()
-				 $('<form id="paging_form" action="">'+
-			               '  <select name="site" size="1" >'+    //    multiple
-			               '  </select>'+
-			               '</form>')
-			           .appendTo('#recent_updates')
-			           $.each([{sub:'5',val:'5'}, {sub:'10',val:'10'}, {sub:'15',val:'15'}], (i, j)=>{
-			               $('<option value="'+ j.val +'">'+ j.sub +'개 보기</option>')
-			               .appendTo('#paging_form select')
-			           })
-				 
-			           $('#paging_form option[value="'+pxy.pageSize+'"]').attr('selected','true')
-			           $('#paging_form').change(()=>{
-			        	   alert('선택한 보기:'+$('#paging_form option:selected').text())
-			        	   recent_updates({page: '1' , size: $('#paging_form option:selected').val()})
-			           })
-		 })
-	}
+        alert('호출된 페이지 번호:'+x.page)
+         $('#recent_updates .media').remove()
+         $('#writeid').remove()
+         $('#recent_updates .d-block').remove()
+         $('#recent_updates .container').remove()
+         $('#paging_form').remove()
+         $.getJSON( context+'/articles/page/'+x.page+'/size/'+x.size, d =>{
+             let pxy = d.pxy
+             alert('recent_updates 알럿')
+             
+             //alert('recent_updates의 d 갯수'+Object.keys(d).length)
+             alert("성공!!")
+                    $.each(d.articles, (i,j)=>{
+                        $('<div class="media text-muted pt-3">'+
+                    '          <i class="fas fa-edit  fa-2x"></i>'+
+                    '          <p id="id_'+i+'"class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">'+
+                    '          </p></div>').appendTo('#recent_updates')
+                        $('<strong class="d-block text-gray-dark">@<a>'+j.uid+'</a></strong>')
+                            .appendTo("#id_"+i)
+                            .click(()=>{
+                                alert('아이디클릭 ')
+                        })
+                        $('<a>'+j.title+'</a>')
+                            .appendTo("#id_"+i)
+                            .click(()=>{
+                                alert('제목클릭')
+                                detail(j)
+                    })
+                })
+                 $(page_vue.page())
+                 .appendTo('#recent_updates')
+                 $('#pagination').empty()
+                 
+                 if(pxy.existPrev){
+                       $('<li class="page-item"><a class="page-link" href="#">이전</a></li>')
+                         .appendTo('#pagination')
+                              .click(e=>{
+                                   e.preventDefault()
+                             recent_updates({page: pxy.prevBlock ,size: pxy.pageSize})
+                         })
+                 }
+                         let i = 0;
+                            for(i = pxy.startPage; i <= pxy.endPage ; i++) {
+                                if(pxy.pageNum == i){
+                                    $('<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>')
+                                     .appendTo('#pagination')
+                                     .addClass('active')
+                                }else{
+                                $('<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>')
+                                 .appendTo('#pagination')
+                                 .click(function(){
+                                     alert('페이지 번호 >>>' + $(this).children('.page-link').text())
+                                     recent_updates({page: $(this).children('.page-link').text() , size: pxy.pageSize})
+                                 })
+                                }         
+                            }
+                 
+                 if(pxy.existNext){
+                      $('<li class="page-item"><a class="page-link" href="#">다음</a></li>')
+                         .appendTo('#pagination')
+                         .click(e=>{
+                              e.preventDefault()
+                             recent_updates({page: pxy.nextBlock ,size:pxy.pageSize })
+                         })
+                 }
+                 $(compo_vue.pageSize())
+                 .appendTo('#pageSize')
+                 $('#listSizeSelectDiv ui[class="select_list"').empty()
+                 $('<form id="paging_form" action="">'+
+                           '  <select name="site" size="1" >'+    //    multiple
+                           '  </select>'+
+                           '</form>')
+                       .appendTo('#recent_updates')
+                       $.each([{sub:'5',val:'5'}, {sub:'10',val:'10'}, {sub:'15',val:'15'}], (i, j)=>{
+                           $('<option value="'+ j.val +'">'+ j.sub +'개 보기</option>')
+                           .appendTo('#paging_form select')
+                       })
+                 
+                       $('#paging_form option[value="'+pxy.pageSize+'"]').attr('selected','true')
+                       $('#paging_form').change(()=>{
+                           alert('선택한 보기:'+$('#paging_form option:selected').text())
+                           recent_updates({page: '1' , size: $('#paging_form option:selected').val()})
+                       })
+                       $('#pagination').css({'justify-content':'center '})
+                       $('#paging_form').css({'float':'right','display':'block'})
+         })
+    }
 	let write=()=>{
 		if (!context) {
             init();
@@ -158,6 +160,9 @@ brd =(()=>{
 			for(;i<files.length;i++){
 				formData.append("uploadFile",files[i])
 			}
+//				if(new CheckExtension({fname:files[i].name,fsize:files[i].size})){
+//					return false
+//				}else{
 			$.ajax({
 				url : context+'/articles/fileupload/',
 				processData : false,
@@ -170,9 +175,8 @@ brd =(()=>{
 				erroe : e=>{
 					alert('파일업로드 실패')
 				}
-					
 			})
-			alert(inputFile)
+			
 		})
     	$('<input>',{
     		style:'float:right;width:100px;margin-right:10px',

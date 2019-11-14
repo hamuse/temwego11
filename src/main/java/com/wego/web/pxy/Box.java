@@ -1,8 +1,6 @@
 package com.wego.web.pxy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;

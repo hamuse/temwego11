@@ -31,8 +31,9 @@
 		<mybatis-spring-version>1.3.2</mybatis-spring-version>
 		<jackson-version>2.9.8</jackson-version>
 		<jsoup-version>1.12.1</jsoup-version>
-		 <mariadb-version>2.4.4</mariadb-version>
-		
+		<mariadb-version>2.4.4</mariadb-version>
+		<!-- <thumbnailator-version>0.4.8</thumbnailator-version>
+		<jackson-dataformat-yaml-version>2.10.1</jackson-dataformat-yaml-version> -->
 		  
 </properties>
 	<dependencies>
@@ -199,6 +200,20 @@
     <artifactId>jsoup</artifactId>
     <version>${jsoup-version}</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+<!-- 		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>${thumbnailator-version}</version>
+		</dependency>
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-yaml</artifactId>
+		    <version>${jackson-dataformat-yaml-version}</version>
+		</dependency> -->
+		
+
 
 		
 	<!-- Database -->

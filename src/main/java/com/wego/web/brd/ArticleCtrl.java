@@ -32,6 +32,7 @@ import com.wego.web.enums.Path;
 import com.wego.web.pxy.PageProxy;
 import com.wego.web.pxy.Trunk;
 import com.wego.web.pxy.Box;
+import com.wego.web.pxy.FileProxy;
 import com.wego.web.usr.User;
 import com.wego.web.usr.UserCtrl;
 import com.wego.web.usr.UserMapper;
@@ -50,6 +51,7 @@ public class ArticleCtrl {
 	@Autowired Box<Article> box;
 	@Autowired PageProxy pager;
 	@Autowired Trunk<Object> trunk;
+	@Autowired FileProxy filemgr;
 	
 	@PostMapping("/")
 	public Map<?, ?> write(@RequestBody Article param) {
@@ -120,17 +122,6 @@ public class ArticleCtrl {
 	}
 	@PostMapping("/fileupload")
 	public void fileupload(MultipartFile [] uploadFile) {
-		printer.accept("업로드 컨트롤러");
-		String uploadFolder = Path.UPLOAD_PATH.toString();
-		for(MultipartFile f : uploadFile) {
-			String fname = f.getOriginalFilename();
-			fname = fname.substring(fname.lastIndexOf("\\")+1);
-			File saveFile = new File(uploadFolder,fname);
-			try {
-				f.transferTo(saveFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		filemgr.fileupload(uploadFile);
 	}
 }
