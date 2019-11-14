@@ -4,31 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wego.web.brd.ArticleMapper">
 		<insert id="insertArticle" parameterType="Article">
-		 insert into article (uid, board_type, title, content) values (
+		 insert into community (uid, boardType, title, content) values (
             #{uid},#{boardType},#{title},#{content}
         )
 		</insert>
 	<select id="countArticle" resultType="string"> 
       select count(*)
-      from ARTICLE
-      where board_type like '게시판'
+      from community
+      where boardType like '게시판'
     </select>
     <select id="selectAll" resultType="Article">
-    	select a.board_type as boardType, a.*
-    	from ARTICLE a
-    	where board_type like '게시판' 
+    	select a.boardType as boardType, a.*
+    	from community a
+    	where boardType like '게시판' 
     </select>
     <delete id ="deleteArticle" parameterType="string">
-    	delete from ARTICLE where artseq =#{artseq}
+    	delete from community where artseq =#{artseq}
     </delete>
     <update id ="updateArticle" parameterType="Article">
-    update ARTICLE set title = #{title}, content=#{content} where uid like #{uid} 
+    update community set title = #{title}, content=#{content} where uid like #{uid} 
   	and artseq like #{artseq}
-  	and  board_type like '게시판' 
+  	and  boardType like '게시판' 
     </update>
     <select id="selectpagination"  resultType="Article" parameterType="Proxy">
-	 select a.board_type as boardType, a.* from (select *
-			from ARTICLE
+	 select a.boardType as boardType, a.* from (select *
+			from community
 			ORDER BY artseq DESC) a  
 	Limit ${startRow}, ${pageSize}
    </select>

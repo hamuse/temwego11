@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Lazy
-public class Product {
-	private String pdname, hid, price, hosttype, type, odnum, redate, paytype, cancel, uid;
+public class Product { 
+	private String pdtname, hid, price, hosttype, type, odnum, redate, paytype, cancel, uid;
 }

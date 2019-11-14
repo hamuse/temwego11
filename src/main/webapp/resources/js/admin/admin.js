@@ -78,12 +78,12 @@ admin = (() => {
                     name: 'cust_mgmt'
                 },
                 {
-                    txt: '상품등록',
-                    name: 'item_reg'
+                    txt: '커뮤니티관리',
+                    name: 'comm_mgmt'
                 },
                 {
                     txt: '상품조회',
-                    name: 'item_srch'
+                    name: 'pdt_mgmt'
                 },
                 {
                     txt: '상품수정',
@@ -108,11 +108,11 @@ admin = (() => {
                             	cust_mgmt()
                                 break 
                                 
-                            case 'item_reg':
-                            	
+                            case 'comm_mgmt':
+                            	comm_mgmt()
                                 break
-                            case 'item_srch':
-
+                            case 'pdt_mgmt':
+                            	pdt_mgmt()
                                 break
                             case 'item_mod':
 
@@ -138,7 +138,7 @@ admin = (() => {
    /*            '  <button id="news_btn">이동</button>'+
                '</form>'+
                '<form class="form-inline my-2 my-lg-0">'+*/
-               '  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">'+
+               '  <input class="form-control mr-sm-2" type="text" value="스톤애견풀빌라" placeholder="Search" aria-label="Search">'+
 //               '  <button id="crawl_btn" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>'+
                '</form>')
            .addClass('form-inline my-2 my-lg-0')
@@ -146,7 +146,7 @@ admin = (() => {
            $('#crawl_form_id').css({padding : '0 auto', 'padding-top' : '5%'  })    //'padding-top' : '5%'
            $('#crawl_form_id select').css({ 'margin-left' : '30%' , 'margin-right' : '1%'})
            
-           $.each(['naver.com', 'daum.net', 'google.com', 'youtube.com'], (i, j)=>{
+           $.each(['직접입력','naver.com', 'daum.net', 'google.com', 'youtube.com'], (i, j)=>{
                $('<option value="'+ j +'">'+ j +'</option>')
                .appendTo('#crawl_form_id select')
            })
@@ -166,7 +166,65 @@ admin = (() => {
                }
            })
     }
+    let pdt_mgmt=()=>{
+    	$('#right').empty()
+    	$('<a>상품 테이블 생성</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/products/create/table', d=>{
+    			alert('상품 테이블 생성 : ' + d.msg)
+    		})
 
+    	})
+
+    	$('<a>상품 테이블 삭제</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/products/drop/table', d=>{
+    			alert('PRODUCT 테이블 삭제 : ' + d.msg)
+    		})
+
+    	})
+    	$('<a>상품 대량정보 입력</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/tx/register/products', d=>{
+    			alert('PRODUCT 대량등록 : ' + d.msg)
+    		})
+
+    	})
+    }
+    let comm_mgmt=()=>{
+    	$('#right').empty()
+    	$('<a>커뮤니티 테이블 생성</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/articles/create/table', d=>{
+    			alert('커뮤니티 테이블 생성 성공여부 : ' + d.msg)
+    		})
+    	})
+    	   	$('<a>커뮤니티 대량정보 입력</a></br>')
+    	.appendTo('#right')
+    	.click(e=>{
+    		e.preventDefault()
+    		$.getJSON(context+'/tx/write/communities', d=>{
+    			alert('커뮤니티 글 수 : ' + d.pdtCount)
+    		})
+
+    	})
+    	 $('<a>커뮤니티 테이블 삭제</a></br>')
+       .appendTo('#right')
+       .click(e=>{
+           e.preventDefault()
+           $.getJSON(context+'/community/drop/table', d=>{
+               alert('테이블 삭제 여부 : ' + d.msg)
+           })
+       })
+    }
     let cust_mgmt=()=>{
     	$('#right').empty()
     	$('<a>데이터베이스 생성</a></br>')
@@ -185,7 +243,6 @@ admin = (() => {
     			alert('고객 테이블 생성 : ' + d.msg)
     		})
     	})
-    /*	$('#right').empty()*/
     	$('<a>고객 테이블 삭제</a></br>')
     	.appendTo('#right')
     	.click(e=>{
@@ -195,6 +252,7 @@ admin = (() => {
     		})
 
     	})
+    	
     	$('<a>고객 대량정보 입력</a></br>')
     	.appendTo('#right')
     	.click(e=>{
@@ -204,16 +262,7 @@ admin = (() => {
     		})
 
     	})
-    	$('<a>상품 테이블 생성</a></br>')
-    	.appendTo('#right')
-    	.click(e=>{
-    		e.preventDefault()
-    		$.getJSON(context+'/products/create/table', d=>{
-    			alert('상품 테이블 생성 : ' + d.msg)
-    		})
-
-    	})
-
+    	
     }
     return {onCreate}
 

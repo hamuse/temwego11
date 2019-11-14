@@ -5,9 +5,17 @@
   
   <mapper namespace="com.wego.web.product.ProductMapper">
   
-  <select id="createProduct" parameterType="map">
+  <select id="createProduct" parameterType="hashmap">
   ${CREATE_PRODUCT}
   </select>
+    <select id="dropProduct" parameterType="hashmap">
+  ${DROP_PRODUCT}
+  </select>
+  
+ 	<insert id="insertProduct" parameterType="hashmap">
+ 	insert into product(pdtname, hid, price, hosttype, type, odnum, redate, paytype, cancel, uid) values(
+ 		#{pdtname},#{hid},#{price},#{hosttype},#{type},#{odnum},#{redate},#{paytype},#{cancel},#{uid})
+ 	</insert>
   </mapper>
   
   

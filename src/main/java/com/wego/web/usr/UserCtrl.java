@@ -90,7 +90,7 @@ public class UserCtrl {
 	    	paramMap.put("msg", "SUCCESS");
 	    	return paramMap;
 	    }
-	    @GetMapping("/drop/table")
+/*	    @GetMapping("/drop/table")
 	    public Map<?,?> dropUser(){
 	    	HashMap<String, String> paramMap = new HashMap<>();
 	    	paramMap.put("DROP_USER", SQL.DROP_USER.toString());
@@ -100,7 +100,7 @@ public class UserCtrl {
 	    	paramMap.clear();
 	    	paramMap.put("msg", "SUCCESS");
 	    	return paramMap;
-	    }
+	    }*/
 /*	    @GetMapping("/create/db")
 	    public Map<?,?> createwegodb(){
 	    	HashMap<String, String> paramMap = new HashMap<>();

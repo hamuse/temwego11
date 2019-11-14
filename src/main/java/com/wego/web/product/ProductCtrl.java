@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wego.web.cmm.IConsumer;
 import com.wego.web.enums.SQL;
 import com.wego.web.usr.UserCtrl;
 import com.wego.web.utl.Printer;
@@ -35,4 +36,15 @@ public class ProductCtrl {
 		return paramMap;
 		
 	}
+    @GetMapping("/drop/table")
+    public Map<?,?> dropProduct(){
+    	HashMap<String, String> paramMap = new HashMap<>();
+    	paramMap.put("DROP_PRODUCT", SQL.DROP_PRODUCT.toString());
+    	printer.accept("테이블 삭제 쿼리 : \n" +paramMap.get("DROP_PRODUCT"));
+    	IConsumer<HashMap<String, String>> c =o -> productMapper.dropProduct(o);
+    	c.accept(paramMap);
+    	paramMap.clear();
+    	paramMap.put("msg", "SUCCESS");
+    	return paramMap;
+    }
 }
