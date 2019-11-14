@@ -1,4 +1,7 @@
 package com.wego.web.pxy;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -29,6 +32,13 @@ public class Proxy {
 		Function<Integer, int[]> f = int[] :: new;
 		return f.apply(size);
 	}
-	
+	public String currentDate() {
+		
+		return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+	}
+	public String currentTime() {
+		return new SimpleDateFormat("yyy-MM-dd hh:mm:ss").format(new Date());
+	}
+
 }
 

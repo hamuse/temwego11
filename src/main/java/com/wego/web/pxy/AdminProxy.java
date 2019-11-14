@@ -61,11 +61,11 @@ public class AdminProxy extends Proxy{
 		Collections.shuffle(tAddr);
 	    String tAddr1 = "";
 	    String tAddr2 = "";
-		for(int i = 0 ; i < 2;i++) {
+		for(int i = 0 ; i < 3;i++) {
 			tAddr1 += tAddr.get(i);
 			tAddr2 += tAddr.get(i+1); 
 		}
-		String tAddr3 = tAddr1 + tAddr2;
+		String tAddr3 = tAddr1 +"-"+ tAddr2;
 		String addrText = fAddr.get(0)+sAddr.get(0)+tAddr3;
 	    return addrText;
 	}

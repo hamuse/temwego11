@@ -19,7 +19,7 @@ public class Box<T> {
 	public int size() {return list.size();}
 	public String toString() {return list.toString();}
 	public void clear() {list.clear();}
-
+    
 //	public void accept(List<String>x, List<?>y) {
 //		map = new HashMap<>();
 //		for(int i =0 ; i < x.size(); i++) {

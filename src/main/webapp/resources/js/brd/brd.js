@@ -12,8 +12,6 @@ brd =(()=>{
 		navi_vuejs= js+'/vue/navi_vue.js'
 		page_vuejs = js+'/vue/page_vue.js'
 		compo_vuejs=js+'/vue/compo_vue.js'
-		
-	
 	}
 	let onCreate = ()=>{
 		init()
@@ -52,7 +50,7 @@ brd =(()=>{
 			 let pxy = d.pxy
 			 alert('recent_updates 알럿')
 			 
-			 //alert('recent_updates의 d 갯수'+Object.keys(d).length)
+			 // alert('recent_updates의 d 갯수'+Object.keys(d).length)
 			 alert("성공!!")
 					$.each(d.articles, (i,j)=>{
 						$('<div class="media text-muted pt-3">'+
@@ -111,7 +109,7 @@ brd =(()=>{
 				 .appendTo('#pageSize')
 				 $('#listSizeSelectDiv ui[class="select_list"').empty()
 				 $('<form id="paging_form" action="">'+
-			               '  <select name="site" size="1" >'+    //    multiple
+			               '  <select name="site" size="1" >'+    // multiple
 			               '  </select>'+
 			               '</form>')
 			           .appendTo('#recent_updates')
@@ -190,11 +188,16 @@ brd =(()=>{
     	.click(()=>{
 			alert('파일업로드')
 			let formData = new FormData()
-			let inputFile = $('#fileupload')[0].files;
+			/* let inputFile = $('#fileupload'); */
+			let files = $('#upload')[0].files
 			let i = 0
 			for(;i<files.length;i++){
-				formDatas.append("uploadFile", files[i])
-			}
+			/*	if(new CheckExtension({fname:files[i].name, fsize:files[i].size})){
+					return false
+				}else{*/
+				formData.append("uploadFile", files[i])
+				/*}*/
+				}
 			$.ajax({
 				url : context +'/articles/fileupload',
 				processData : false,
@@ -202,17 +205,16 @@ brd =(()=>{
 				data : formData,
 				type : 'POST',
 				success : d =>{
-					
+					alert('파일업로드 성공')
 				},
 				error : e =>{
 					alert('파일업로드 실패')
 				}
 			})
 			alert(inputFile)
-			
 		})
 		.appendTo('#form_write')
-		$('<input type="file" name="fileupload" multiple/>')
+		$('<input id="upload" type="file" name="fileupload" multiple/>')
 		.appendTo('#form_write')
 	}
 	let detail = x =>{
